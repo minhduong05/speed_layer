@@ -52,16 +52,4 @@ bigdata-job-market/
 /gold/company_hiring_by_month/month_key=YYYY-MM/
 ```
 
----
 
-## Team Ownership
-
-| TV | Tên | Owns |
-|----|-----|------|
-| TV1 | KHÔI | `data_contracts/` — schema, dedup rules, review |
-| TV2 | HOÀNG | `apps/ingestion/` — crawler, historical loader |
-| TV3 | ĐỊNH | `apps/batch/` — Spark batch ETL |
-| TV4 | MINH | `apps/stream/` — Structured Streaming, DLQ |
-| TV5 | ANH | `apps/serving/`, `infra/` — Cassandra/ES, API, deploy |
-
-> Chi tiết schema xem [`data_contracts/data_contract_v1.md`](data_contracts/data_contract_v1.md)

@@ -1,0 +1,9 @@
+# Speed Layer — Python Dependencies
+# Install:  pip install -r requirements.txt
+
+confluent-kafka==2.4.0
+pyspark==3.5.1
+redis==5.0.4
+fastapi==0.111.0
+uvicorn==0.30.1
+python-dotenv==1.0.1

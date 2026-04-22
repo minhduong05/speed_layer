@@ -1,0 +1,120 @@
+[
+  {
+    "source_url": "https://www.topcv.vn/viec-lam/backend-developer-123.html",
+    "payload": {
+      "domain": "www.topcv.vn",
+      "fetch_method": "playwright",
+      "title": "Backend Developer (Python/FastAPI)",
+      "company_name": "Tech Corp Vietnam",
+      "salary": "20 - 35 triệu",
+      "location": "Hà Nội",
+      "experience": "2 năm",
+      "deadline": "Còn 30 ngày",
+      "job_type": "Toàn thời gian",
+      "description": "Chúng tôi đang tìm kiếm Backend Developer giàu kinh nghiệm để join team của chúng tôi...",
+      "requirements": "- 2+ năm kinh nghiệm Python\n- Familiar with FastAPI, PostgreSQL\n- Docker, Git",
+      "benefits": "- Lương thưởng cạnh tranh\n- Thưởng tháng 13\n- Health insurance",
+      "requirement_items": [
+        "Python",
+        "FastAPI",
+        "PostgreSQL",
+        "Docker",
+        "Git"
+      ],
+      "benefit_items": [
+        "Thưởng tháng 13",
+        "Bảo hiểm y tế",
+        "Làm việc từ xa"
+      ],
+      "skills": [
+        "Python",
+        "FastAPI",
+        "PostgreSQL",
+        "Docker"
+      ],
+      "categories": [
+        "IT / Software"
+      ],
+      "json_ld": [],
+      "meta_tags": {}
+    }
+  },
+  {
+    "source_url": "https://www.topcv.vn/viec-lam/frontend-developer-456.html",
+    "payload": {
+      "domain": "www.topcv.vn",
+      "fetch_method": "playwright",
+      "title": "Frontend Developer (React/TypeScript)",
+      "company_name": "Digital Solutions",
+      "salary": "18 - 30 triệu",
+      "location": "Hồ Chí Minh",
+      "experience": "1.5 năm",
+      "deadline": "Còn 45 ngày",
+      "job_type": "Toàn thời gian",
+      "description": "Tìm Frontend Developer có kinh nghiệm React...",
+      "requirements": "- React, TypeScript, CSS\n- Git, Webpack\n- API integration",
+      "benefits": "- Flexible work hours\n- Training budget\n- Gym membership",
+      "requirement_items": [
+        "React",
+        "TypeScript",
+        "CSS",
+        "Git",
+        "Webpack"
+      ],
+      "benefit_items": [
+        "Flexible schedule",
+        "Training budget"
+      ],
+      "skills": [
+        "React",
+        "TypeScript",
+        "CSS",
+        "JavaScript"
+      ],
+      "categories": [
+        "IT / Software"
+      ],
+      "json_ld": [],
+      "meta_tags": {}
+    }
+  },
+  {
+    "source_url": "https://www.topcv.vn/viec-lam/data-scientist-789.html",
+    "payload": {
+      "domain": "www.topcv.vn",
+      "fetch_method": "playwright",
+      "title": "Data Scientist (Python/ML)",
+      "company_name": "AI Innovations",
+      "salary": "25 - 45 triệu",
+      "location": "Đà Nẵng",
+      "experience": "3 năm",
+      "deadline": "Còn 60 ngày",
+      "job_type": "Toàn thời gian",
+      "description": "Chúng tôi tìm Data Scientist để phát triển models ML...",
+      "requirements": "- Python, Machine Learning\n- TensorFlow/PyTorch\n- SQL, Big Data",
+      "benefits": "- Lương cao\n- Stock options\n- Remote work",
+      "requirement_items": [
+        "Python",
+        "Machine Learning",
+        "TensorFlow",
+        "SQL"
+      ],
+      "benefit_items": [
+        "Stock options",
+        "Remote work"
+      ],
+      "skills": [
+        "Python",
+        "Machine Learning",
+        "TensorFlow",
+        "SQL",
+        "Pandas"
+      ],
+      "categories": [
+        "IT / Data Science"
+      ],
+      "json_ld": [],
+      "meta_tags": {}
+    }
+  }
+]

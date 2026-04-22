@@ -1,0 +1,35 @@
+---
+# configs/kubernetes/configmap.yaml
+# ===================================
+# K8s ConfigMap: Kafka brokers, Elasticsearch URL, etc.
+#
+# Cài:
+#   kubectl apply -f configs/kubernetes/configmap.yaml
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: speed-layer-config
+  namespace: spark
+data:
+  # Kafka
+  KAFKA_BOOTSTRAP: "my-cluster-kafka-bootstrap.kafka.svc:9092"
+  KAFKA_TOPIC_RAW: "jobs_raw"
+  KAFKA_TOPIC_CLEAN: "jobs_clean"
+  KAFKA_TOPIC_DLQ: "jobs_dead_letter"
+  
+  # Elasticsearch
+  ES_URL: "http://elasticsearch.streaming.svc:9200"
+  ES_INDEX: "jobs_realtime_v1"
+  
+  # Cassandra
+  CASSANDRA_HOST: "demo-dc1-service.k8ssandra-operator.svc"
+  CASSANDRA_PORT: "9042"
+  CASSANDRA_KEYSPACE: "demo_jobs"
+  
+  # Spark
+  TRIGGER_SEC: "10"
+  CHECKPOINT_DIR: "/tmp/checkpoints"
+  WINDOW_DURATION: "10 minutes"
+  SLIDE_DURATION: "1 minute"
+  WATERMARK_DELAY: "10 minutes"

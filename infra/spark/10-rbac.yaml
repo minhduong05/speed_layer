@@ -1,24 +1,62 @@
+---
+# infra/spark/10-rbac.yaml
+# ==========================
+# Kubernetes RBAC cho Spark jobs.
+#
+# Cài:
+#   kubectl apply -f infra/spark/10-rbac.yaml
+
 apiVersion: v1
 kind: Namespace
 metadata:
   name: spark
+
 ---
+
+# ServiceAccount - Spark driver pod sẽ chạy dưới SA này
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: spark
   namespace: spark
+
 ---
+
+# Role - quyền hạn gì được phép
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: spark-role
+  namespace: spark
+rules:
+  # Tạo / xóa pod
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["create", "delete", "get", "list", "watch"]
+  
+  # Log streaming
+  - apiGroups: [""]
+    resources: ["pods/logs"]
+    verbs: ["get"]
+  
+  # ConfigMap / Secret (cấu hình)
+  - apiGroups: [""]
+    resources: ["configmaps", "secrets"]
+    verbs: ["get", "list"]
+
+---
+
+# RoleBinding - liên kết ServiceAccount với Role
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: spark-edit
+  name: spark-rolebinding
   namespace: spark
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: spark-role
 subjects:
   - kind: ServiceAccount
     name: spark
     namespace: spark
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: edit

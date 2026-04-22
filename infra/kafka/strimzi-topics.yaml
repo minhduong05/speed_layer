@@ -1,0 +1,106 @@
+---
+# infra/kafka/strimzi-topics.yaml
+# ================================
+# Kafka topics cho Speed Layer (Strimzi KafkaTopic CRD).
+#
+# Cài:
+#   kubectl apply -f infra/kafka/strimzi-topics.yaml
+#
+# Hoặc local docker-compose (auto-create):
+#   kafka-topics.sh --create --bootstrap-server localhost:9092 \
+#     --topic jobs_raw --partitions 3 --replication-factor 1
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kafka
+---
+
+# ════════════════════════════════════════════════════════════════════════════
+# TOPIC 1: jobs_raw
+# ════════════════════════════════════════════════════════════════════════════
+# Producer: crawler_producer.py
+# Consumer: spark_consumer.py
+#
+# Message format: RawEnvelope (JSON)
+# Key: job_id (sha256 hash) → all same job vào cùng partition
+# Retention: 7 days (historical backfill + replay)
+# Partitions: 3 (để scale Consumer 1 tới 3 instances)
+
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: jobs-raw
+  namespace: kafka
+  labels:
+    strimzi.io/cluster: my-cluster
+spec:
+  topicName: jobs_raw
+  partitions: 3
+  replicationFactor: 2  # hoặc 1 nếu single node
+  retentionMs: 604800000  # 7 days
+  config:
+    max.message.bytes: 5242880  # 5 MB (HTML + metadata có thể lớn)
+    compression.type: snappy
+    cleanup.policy: delete
+    segment.ms: 86400000  # 1 day segments
+
+---
+
+# ════════════════════════════════════════════════════════════════════════════
+# TOPIC 2: jobs_clean
+# ════════════════════════════════════════════════════════════════════════════
+# Producer: spark_consumer.py (output sau validate + transform)
+# Consumer: realtime_aggregator.py (Consumer Group 2)
+#
+# Message format: Enriched job record (JSON) - cùng format từ _transform_row()
+# Retention: 3 days (aggregator consume gần real-time, không cần lưu lâu)
+# Partitions: 3 (để match jobs_raw partitioning)
+
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: jobs-clean
+  namespace: kafka
+  labels:
+    strimzi.io/cluster: my-cluster
+spec:
+  topicName: jobs_clean
+  partitions: 3
+  replicationFactor: 2
+  retentionMs: 259200000  # 3 days
+  config:
+    max.message.bytes: 1048576  # 1 MB (đã lọc clean)
+    compression.type: snappy
+    cleanup.policy: delete
+    segment.ms: 86400000  # 1 day
+
+---
+
+# ════════════════════════════════════════════════════════════════════════════
+# TOPIC 3: jobs_dead_letter (DLQ)
+# ════════════════════════════════════════════════════════════════════════════
+# Producer: spark_consumer.py (nếu có lỗi transform)
+# Consumer: dlq_handler.py, hoặc manual debugging
+#
+# Message format: DLQRecord (original_message + error_type + error_message)
+# Retention: 14 days (debug + audit trail)
+# Partitions: 1 (DLQ không cần high throughput)
+
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: jobs-dead-letter
+  namespace: kafka
+  labels:
+    strimzi.io/cluster: my-cluster
+spec:
+  topicName: jobs_dead_letter
+  partitions: 1
+  replicationFactor: 2
+  retentionMs: 1209600000  # 14 days
+  config:
+    max.message.bytes: 5242880  # 5 MB (copy từ jobs_raw)
+    compression.type: snappy
+    cleanup.policy: delete
+    segment.ms: 604800000  # 1 week segments
